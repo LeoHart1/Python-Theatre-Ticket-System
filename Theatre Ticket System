@@ -1,0 +1,90 @@
+Theatre_Seats = [
+    ["$10", "$10", "$10", "$10", "$10", "$10", "$10", "$10"],
+    ["$10", "$10", "$10", "$10", "$10", "$10", "$10", "$10"],
+    ["$10", "$10", "$10", "$10", "$10", "$10", "$10", "$10"],
+    ["$10", "$20", "$20", "$20", "$20", "$20", "$20", "$10"],
+    ["$10", "$20", "$20", "$20", "$20", "$20", "$20", "$10"],
+    ["$10", "$20", "$20", "$20", "$20", "$20", "$20", "$10"],
+    ["$20", "$30", "$30", "$40", "$40", "$30", "$30", "$20"],
+    ["$30", "$30", "$40", "$50", "$50", "$40", "$30", "$30"],
+    ["$40", "$50", "$50", "$50", "$50", "$50", "$50", "$50"]
+]
+
+# Function to print the seating arrangement
+def print_seats(seats):
+    for row in seats:
+        print(" ".join(f"{seat:>5}" for seat in row))
+
+# Function to check if all seats are sold out
+def all_seats_sold_out(seats):
+    return all(seat == "X" for row in seats for seat in row)
+
+print("Welcome to the theatre :)")
+print("Here are the seats:")
+print_seats(Theatre_Seats)
+
+# Initial user input to pick a seat, buy all seats, or leave
+while True:
+    print("Say 'hello' to pick your seat, 'all' to buy all seats, or 'no' if you don't want to pick a seat")
+    user_input = input().strip().lower()
+    if user_input == "no":
+        print("Thanks for visiting the theatre! Have a great day!")
+        exit()
+    elif user_input == "hello":
+        print("Hello! Please pick a seat")
+        break
+    elif user_input == "all":
+        for i in range(len(Theatre_Seats)):
+            for j in range(len(Theatre_Seats[i])):
+                Theatre_Seats[i][j] = "X"
+        print("All seats have been bought!")
+        print_seats(Theatre_Seats)
+        exit()
+    else:
+        print("Invalid input. Please try again.")
+
+# Main loop for picking seats
+while True:
+# Checks if all seats are sold out
+    if all_seats_sold_out(Theatre_Seats):
+        print("All seats have been taken and no more seats available.")
+        exit()
+
+# Loop for picking a specific seat
+    while True:
+        try:
+            row = int(input("Enter row number (1-9): "))
+            column = int(input("Enter column number (1-8): "))
+            if 1 <= row <= 6 and 1 <= column <= 9:
+                if Theatre_Seats[row-1][column-1] == "X":
+                    print("Seat already taken. Please choose another seat.")
+                else:
+                    print(f"The seat you have chosen is {Theatre_Seats[row-1][column-1]}")
+                    Theatre_Seats[row-1][column-1] = "X"
+                    print("Updated seating arrangement:")
+                    print_seats(Theatre_Seats)
+                    break
+            else:
+                print("Invalid seat. Please enter a valid row (1-6) and column (1-9).")
+        except ValueError:
+            print("Invalid input. Please enter numeric values for row and column.")
+
+    # Loop for asking if the user wants another seat, all seats, or no more seats
+    while True:
+        print("Would you like another seat 'yes' for a seat or 'all' for all or 'no' for no seats")
+        another_seat = input().strip().lower()
+        if another_seat == "yes":
+            break
+        elif another_seat == "all":
+            for i in range(len(Theatre_Seats)):
+                for j in range(len(Theatre_Seats[i])):
+                    Theatre_Seats[i][j] = "X"
+            print("All seats have been bought!")
+            print("Updated seating arrangement:")
+            print_seats(Theatre_Seats)
+            exit()
+        elif another_seat == "no":
+            print("Thanks for buying a ticket! Enjoy the show!")
+            exit()
+        else:
+            print("Inavlid input enter 'yes', 'all', or 'no'.")
